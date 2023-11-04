@@ -1,0 +1,34 @@
+.imageContainer{
+    position: relative;
+}
+.image{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+}
+.imageText{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    /* background-color: aqua; */
+    background-color: #151619;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+}
+.wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 10px;
+}
+.left > *{
+    margin-bottom: 10px;
+}
+.right > *{
+    margin-bottom: 10px;
+}
+.listItems > *{
+    list-style-type: none;
+}

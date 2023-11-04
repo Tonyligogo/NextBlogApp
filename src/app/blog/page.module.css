@@ -1,0 +1,61 @@
+.container .stories {
+    padding: 16px 0 16px 0;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+}
+.container .imgContainer .cards .img{
+    border-radius: 30px;
+}
+.container .imgContainer {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 16px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    padding-bottom: 30px;
+}
+.tags .listItems {
+    list-style-type: none;
+}
+.tags .listItems > * {
+    display: inline-block;
+    background-color: #F3F1F3;
+    border-radius: 50px;
+    padding: 3px 10px;
+    margin-block: 4px;
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+    cursor: pointer;
+}
+.heading {
+    font-size: 22px;
+    font-family: 'Inter', sans-serif;
+}
+.cardContent .text {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+.container .imgContainer .cards .images {
+    position: relative;
+}
+.container .imgContainer .cards .images .smallImages {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+.smallImages .smallImage {
+    width: 28px;
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 50%;
+    margin-left: -14px;
+}
+.smallImages .smallImage:first-child{
+    margin-left: 0;
+}
+.cardContent .tags{
+
+}
