@@ -6,6 +6,7 @@ import { CircularProgress } from "@mui/material";
 import { Icon } from '@iconify/react';
 import { useRouter } from 'next/navigation'
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 function Register() {
 
@@ -100,6 +101,7 @@ function Register() {
                     <button className={styles.signIn}><CircularProgress size="14px" className={styles.progress}/>Creating account...</button>
                     :
                     <button className={styles.signIn}>Create account</button>}
+                    <Link href='/dashboard/login'>Already have an account?Log in</Link>
                   </form> 
               </div>
     </div>

@@ -1,15 +1,17 @@
+import { connect } from '../index.js';
 import GoogleUser from '../models/googleUser.model.js';
 
 export const googleUser = async (req, res)=>{
-    try{
-            const newGoogleUser = new GoogleUser({
-                email:req.body.email,
-                username:req.body.username
-            })
-            await newGoogleUser.save();
-            res.status(201).send('User has been created')
-    }catch(err){
-        res.status(500).send('Something went wrong')
-        console.log(err)
+    const {email, username} = await req.body;
+    await connect()
+    try {
+        const newGoogleUser = new GoogleUser({
+            email,
+            username
+        })
+        await newGoogleUser.save();
+        res.status(201).send('User has been created')
+    } catch (error) {
+        console.log(error, 'this is my error')
     }
 }

@@ -36,7 +36,7 @@ app.use('/user', userRoute)
 app.use('/post', postRoute)
 app.use('/comment', commentRoute)
 
-app.listen(8000, ()=>{
+app.listen(8800, ()=>{
     connect()
     console.log('backend running');
 })

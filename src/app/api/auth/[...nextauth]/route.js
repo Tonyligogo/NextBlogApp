@@ -1,7 +1,7 @@
 import axios from "axios"
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import { connect } from "../../../../../server/index.js"
+import {connect} from "../../../../../server/index.js"
 import GoogleUser from "../../../../../server/models/googleUser.model.js"
 
 const authOptions ={
@@ -20,16 +20,13 @@ const authOptions ={
       }
       if(account.provider === 'google'){
         try {
-          await connect();
-            const newGoogleUser = await GoogleUser.create({
-              username:name,
-              email
-            })
-            // const res = await axios.post('http://localhost:8000/user/googleUser', data)
-          
-          return true
-          // if(res.ok){
-          // }
+          await connect()
+          const emailExists = await GoogleUser.findOne({email})
+          if(!emailExists){
+            console.log('email exists')
+            const res = await axios.post('http://localhost:8800/user/googleUser', data)
+            if(res.ok) return user
+          }
         } catch (error) {
           console.log(error)
         }

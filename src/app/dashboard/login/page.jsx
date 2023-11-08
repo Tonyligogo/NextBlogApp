@@ -81,7 +81,7 @@ function Login() {
                         className={styles.input}
                         id="username"
                         type="text" 
-                        value={formValues.email} 
+                        value={formValues.username} 
                         ref={userRef} 
                         name="username"
                         autoComplete="off" 
