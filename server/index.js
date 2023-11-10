@@ -8,7 +8,6 @@ import authRoute from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 
-
 const app = express();
 dotenv.config()
 
@@ -30,13 +29,14 @@ app.use(
       credentials: true,
     })
   );
+app.use("/uploads", express.static("uploads"));
 
 app.use('/auth', authRoute)
 app.use('/user', userRoute)
 app.use('/post', postRoute)
 app.use('/comment', commentRoute)
 
-app.listen(8800, ()=>{
+app.listen(8000, ()=>{
     connect()
     console.log('backend running');
 })

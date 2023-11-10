@@ -3,7 +3,8 @@ const nextConfig = {
     images:{
         domains:[
             "lh3.googleusercontent.com",
-            "freelogopng.com"
+            "freelogopng.com",
+            "localhost"
         ]}
 }
 

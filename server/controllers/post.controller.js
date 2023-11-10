@@ -7,11 +7,12 @@ export const createPost = async (req, res)=>{
         const newPost = new Post({
             title: req.body.title,
             description: req.body.description,
-            category: req.body.category,
-            image: req.body.image,
+            category: req.body.category
         })
+        if(req.file){
+            newPost.image = req.file.path
+        }
         await newPost.save();
-        // res.status(201).send('Post has been created')
         res.status(201).json({
             status: true,
             message: 'Post has been created',
@@ -27,4 +28,39 @@ export const deletePost = async (req, res)=>{
     if(!token) return res.status(401).send('Not logged in');
     await Post.findByIdAndDelete(req.params.id)
     res.status(201).send('deleted')
+}
+
+export const getPosts = async (req, res)=>{
+    const token = req.cookies.accessToken;
+    // if(!token) return res.status(401).send('Not logged in');
+    res.json(
+        await Post.find()
+        .sort({createdAt: -1})
+        .limit(20)
+    )
+}
+export const getSinglePost = async (req, res)=>{;
+    try {
+        await Post.findById(req.params.id).then((result) => {
+          if (result) {
+            res.status(201).json({
+              post: result,
+              success: true,
+              message: "Single blog fetched",
+            });
+          } else {
+            res.status(401).json({
+              success: false,
+              message:
+                "There is no blog with the specified id",
+            });
+          }
+        });
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: "Server Error: error while fetching blog",
+          error: error,
+        });
+      }
 }

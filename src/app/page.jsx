@@ -38,7 +38,7 @@ export default function Home() {
         </div>
         <div className={styles.right} ref={animationContainer}></div>
       </div>
-      <Blog/>
+      {/* <Blog/> */}
     </div>
   )
 }
