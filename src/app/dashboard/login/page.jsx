@@ -41,33 +41,37 @@ function Login() {
   async function handleLogin(e){
     e.preventDefault();
     setLoading(true)
-    const data = {username:formValues.username, password:formValues.password};
-    await axios.post('http://localhost:8000/auth/login', data)
-    .then(() => {
-      setFormValues({username:'',password:''})
-      // window.location.href = "/"
-      router.push('/')
-    }).catch((err) => {
-      if(err?.response?.status === 404){
-          toast.error('User not found', {
-            id: 'error',
-        })
-        console.log('error should be here')
-      }
-      else if(err?.response?.status === 400){
-          toast.error('Wrong username or password', {
-            id: 'error',
-        })
-      }else{
-        toast.error('Login failed. Try again!', {
-          id: 'error',
-      })
-      }
-    }) 
-    .finally(() => {
-      setLoading(false);
-    });
+    const {username, password} = formValues
+    // const data = {username:formValues.username, password:formValues.password};
+    await signIn('credentials', {username, password})
+    // await axios.post('http://localhost:8000/auth/login', data)
+    // .then((res) => {
+    //   console.log(res)
+    //   setFormValues({username:'',password:''})
+    //   router.push('/')
+    // }).catch((err) => {
+    //   if(err?.response?.status === 404){
+    //       toast.error('User not found', {
+    //         id: 'error',
+    //     })
+    //     console.log('error should be here')
+    //   }
+    //   else if(err?.response?.status === 400){
+    //       toast.error('Wrong username or password', {
+    //         id: 'error',
+    //     })
+    //   }else{
+    //     toast.error('Login failed. Try again!', {
+    //       id: 'error',
+    //   })
+    //   }
+    // }) 
+    // .finally(() => {
+    //   setLoading(false);
+    // });
   }
+  const session = useSession()
+  console.log(session, 'this is session')
   return (
       <div className={styles.loginPage}>
       <div className={styles.form}>    

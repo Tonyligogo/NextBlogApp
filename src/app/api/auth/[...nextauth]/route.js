@@ -1,15 +1,45 @@
 import axios from "axios"
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import {connect} from "../../../../../server/index.js"
 import GoogleUser from "../../../../../server/models/googleUser.model.js"
+import clientPromise from "../../../../../server/libs/mongoConnect.js"
+import CredentialsProvider from "next-auth/providers/credentials"
+import User from "../../../../../server/models/user.model.js"
+import bcrypt from 'bcrypt';
 
 const authOptions ={
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    CredentialsProvider({
+      name: 'Credentials',
+      id: 'credentials',
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "test@example.com" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        await connect();
+        const {username, password} = credentials;
+          const user = await User.findOne({username})
+          if(user){
+            const isCorrect = await bcrypt.compareSync(password, user.password)
+            if(isCorrect){
+              return user;
+            }else{
+              throw new Error('Wrong credentials')
+            }
+          }else{
+            throw new Error('User not found')
+          } 
+        
+      }
+    })
   ],
   callbacks: {
     async signIn({user, account}){

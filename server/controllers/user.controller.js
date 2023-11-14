@@ -1,9 +1,7 @@
-import { connect } from '../index.js';
 import GoogleUser from '../models/googleUser.model.js';
 
 export const googleUser = async (req, res)=>{
     const {email, username} = await req.body;
-    await connect()
     try {
         const newGoogleUser = new GoogleUser({
             email,
