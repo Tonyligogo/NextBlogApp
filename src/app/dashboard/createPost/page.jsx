@@ -24,7 +24,6 @@ function CreatePost() {
         data.set('description', description);
         data.set('category', category);
         data.set('image', file[0]);
-        // console.log(data)
 
         await axios.post('http://localhost:8000/post/createPost', data)
         .then((res)=>{

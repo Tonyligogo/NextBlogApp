@@ -1,7 +1,7 @@
 import axios from "axios"
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
+// import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import {connect} from "../../../../../server/index.js"
 import GoogleUser from "../../../../../server/models/googleUser.model.js"
 import clientPromise from "../../../../../server/libs/mongoConnect.js"
@@ -10,7 +10,7 @@ import User from "../../../../../server/models/user.model.js"
 import bcrypt from 'bcrypt';
 
 const authOptions ={
-  adapter: MongoDBAdapter(clientPromise),
+  // adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -19,10 +19,7 @@ const authOptions ={
     CredentialsProvider({
       name: 'Credentials',
       id: 'credentials',
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "test@example.com" },
-        password: { label: "Password", type: "password" }
-      },
+      credentials:{},
       async authorize(credentials) {
         await connect();
         const {username, password} = credentials;
@@ -41,6 +38,13 @@ const authOptions ={
       }
     })
   ],
+  session:{
+    strategy: 'jwt'
+  },
+  secret:"vygcdrdre8798723cgfcdzty",
+  pages:{
+    signIn:'/dashboard/login'
+  },
   callbacks: {
     async signIn({user, account}){
       const {email, name} = user;

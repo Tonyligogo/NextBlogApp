@@ -17,6 +17,9 @@ const postSchema = new Schema({
     image:{
         type: String,
         required: false,
+    },
+    postedBy:{
+        type: Schema.Types.ObjectId, ref: 'User'
     }
     // ,
     // totalStars: {

@@ -28,10 +28,10 @@ export const login = async (req, res)=>{
             id: user._id,
         }, process.env.JWT_KEY)
 
-        const {password, ...userData} = user._doc;
+        const {username, _id} = user._doc;
         res.cookie('accessToken', token, {
             httpOnly: true 
-        }).status(200).send(userData)
+        }).status(200).json({username, _id})
     }catch(err){
         res.status(500).send('Something went wrong')
     }

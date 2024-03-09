@@ -6,6 +6,8 @@ import logo from '../../../public/logo.svg'
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation'
+import { useUserContext } from '@/app/context/Userprovider'
+import { Icon } from '@iconify/react';
 
 const links = [
   {
@@ -37,6 +39,7 @@ const links = [
 
 function Navbar() {
   const {data: session} = useSession()
+  const {currentUser} = useUserContext()
   const location = usePathname()
   const paths = ['login', 'register']
   if(paths.some(path => location.includes(path))){
@@ -52,11 +55,18 @@ function Navbar() {
         ))}
         {session && 
           <span className={styles.user}>
-            <span>{session.user.name}</span>
-            <Image src={session.user.image} alt='user image' height={24} width={24} className={styles.userImage}/>
+            <span>{session.user?.name}</span>
+            <Image src={session.user?.image} alt='user image' height={24} width={24} className={styles.userImage}/>
           </span>
         }
-        {session ? 
+        {currentUser !== null && 
+          <span className={styles.user}>
+            <span>{currentUser}</span>
+            {/* <Image src={session.user?.image} alt='user image' height={24} width={24} className={styles.userImage}/> */}
+            <Icon icon="ei:user" width="40" />
+          </span>
+        }
+        {session || currentUser? 
           <button className={styles.logout} onClick={()=>signOut('google')}>Logout</button>
           :
           <Link href='/dashboard/login'><button className={styles.logout}>Log in</button></Link>

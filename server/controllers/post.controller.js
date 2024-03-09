@@ -1,25 +1,35 @@
+import jwt from "jsonwebtoken";
 import Post from "../models/post.model.js";
 
 export const createPost = async (req, res)=>{
     try{
         const token = req.cookies.accessToken;
         if(!token) return res.status(401).send('Not logged in');
-        const newPost = new Post({
-            title: req.body.title,
-            description: req.body.description,
-            category: req.body.category
+        jwt.verify(token, process.env.JWT_KEY, async (err, info)=>{
+          if(err){
+            console.log(err, 'This is a token verification error')
+            return
+          }
+          
+          const newPost = new Post({
+              title: req.body.title,
+              description: req.body.description,
+              category: req.body.category,
+              postedBy:info.id,
+          })
+          if(req.file){
+              newPost.image = req.file.path
+          }
+          await newPost.save();
+          res.status(201).json({
+              status: true,
+              message: 'Post has been created',
+              post: newPost,
+            });
         })
-        if(req.file){
-            newPost.image = req.file.path
-        }
-        await newPost.save();
-        res.status(201).json({
-            status: true,
-            message: 'Post has been created',
-            post: newPost,
-          });
     }catch(err){
         res.status(500).send('Something went wrong')
+        console.log(err)
     }
 }
 
@@ -35,6 +45,7 @@ export const getPosts = async (req, res)=>{
     // if(!token) return res.status(401).send('Not logged in');
     res.json(
         await Post.find()
+        .populate('postedBy', ['username'])
         .sort({createdAt: -1})
         .limit(20)
     )
